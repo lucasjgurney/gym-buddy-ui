@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Gym Buddy</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+	<link rel="stylesheet" href="styles.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script>
+		$(document).bind('mobileinit',function(){
+			$.mobile.changePage.defaults.changeHash = false;
+			$.mobile.hashListeningEnabled = false;
+			$.mobile.pushStateEnabled = false;
+		});
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+</head>
+<body>
+	<div data-role="page" id="authenticate" class="center-page">
+		<div role="main" class="ui-content">
+			<div id="welcome-container">
+				<h1 id="introMessage">Hey! Touch your card to begin.</h1>
+				<p id="helpMessage">The reader should be on your left.</p>
+			</div>
+		</div>
+	</div>
+	
+	<div data-role="page" id="mainMenu" class="center-page">
+		<div role="main" class="ui-content">
+			<h1>How are you, <span id="menuUser">User</span>? Can I assist?</h1>
+		
+			<fieldset class="ui-grid-b" id="menuOptions">
+				<div class="ui-block-a"><button onclick="suggestExercise()">Suggest an exercise to do</button></div>
+				<div class="ui-block-b"><button onclick="changePage(&quot;#oneRepMax&quot;)">Calculate a 1 Rep Max</button></div>
+				<div class="ui-block-c"><button onclick="viewAllExercises()">View all exercises</button></div>
+			</fieldset>
+			
+			<p id="error"></p>
+			
+			<button id="logOut" onclick="logOut(true)">Log out</button>
+		</div>
+	</div>
+	
+	<div data-role="page" id="suggest">
+		<div role="main" class="ui-content">
+			<h1>Why don't you try this?</h1>
+			<div class="ui-grid-b" id="suggestResult">
+				<div class="ui-block-solo">
+					<button id="suggestExercise" onclick="viewExercise(false)">Exercise name</button>
+				</div>
+				<div class="ui-block-a">
+					<span id="suggestSets">X</span><br />
+					Sets
+				</div>
+				<div class="ui-block-b">
+					<span id="suggestReps">Y</span><br />
+					Reps
+				</div>
+				<div class="ui-block-c">
+					<span id="suggestLoad">Zkg</span><br />
+					Load
+				</div>
+			</div>
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+	
+	<div data-role="page" id="oneRepMax">
+		<div role="main" class="ui-content">
+			<h1>Let's calculate a one rep max.</h1>
+			<p>
+				Knowing your one rep max (1RM) will help me to create personalised exercise plans for you.
+				Click the button below to get started, or read the instructions below if you don't know how to calculate your 1RM.
+			</p>
+			
+			<button onclick="oRMChoose()">Choose an exercise</button>
+			
+			<ol id="oRMTutorial">
+				<li>Pick an exercise on the next screen that you think you want to do in your workouts&mdash; I'll only suggest exercises you have 1RM values for.</li>
+				<li>Pick a load for the exercise that you think you will manage for 5-6 reps.</li>
+				<li>Perform one set of the exercise until failure.</li>
+				<li>On the later screens, enter how many reps you did and at one weight, I will calculate your 1RM and save that for you.</li>
+			</ol>
+			
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+	
+	<div data-role="page" id="oRMChoose">
+		<div role="main" class="ui-content">
+			<h1>First, pick an exercise</h1>
+			
+			<ol id="oRMPicker" class="exercisesList"></ol>
+			
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+	
+	<div data-role="page" id="oRMEnterWeight">
+		<div role="main" class="ui-content">
+			<h1>What weight did you lift?</h1>
+			
+			<h2><span id="oRMWeight">0</span>kg</h2>
+			
+			<div class="ui-grid-b" id="suggestResult">
+				<div class="ui-block-a">
+					<button onclick="enterORMWeight(7)">7</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMWeight(8)">8</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="enterORMWeight(9)">9</button>
+				</div>
+				
+				<div class="ui-block-a">
+					<button onclick="enterORMWeight(4)">4</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMWeight(5)">5</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="enterORMWeight(6)">6</button>
+				</div>
+				
+				<div class="ui-block-a">
+					<button onclick="enterORMWeight(1)">1</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMWeight(2)">2</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="enterORMWeight(3)">3</button>
+				</div>
+				
+				<div class="ui-block-a">
+					<button onclick="enterORMWeight(-1)">Delete</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMWeight(0)">0</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="oRMInputWeight()">OK</button>
+				</div>
+			</div>
+			
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+		
+	<div data-role="page" id="oRMEnterReps">
+		<div role="main" class="ui-content">
+			<h1>And how many reps did you do?</h1>
+			
+			<h2><span id="oRMReps">0</span> reps</h2>
+			
+			<div class="ui-grid-b" id="suggestResult">
+				<div class="ui-block-a">
+					<button onclick="enterORMReps(7)">7</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMReps(8)">8</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="enterORMReps(9)">9</button>
+				</div>
+				
+				<div class="ui-block-a">
+					<button onclick="enterORMReps(4)">4</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMReps(5)">5</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="enterORMReps(6)">6</button>
+				</div>
+				
+				<div class="ui-block-a">
+					<button onclick="enterORMReps(1)">1</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMReps(2)">2</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="enterORMReps(3)">3</button>
+				</div>
+				
+				<div class="ui-block-a">
+					<button onclick="enterORMReps(-1)">Delete</button>
+				</div>
+				<div class="ui-block-b">
+					<button onclick="enterORMReps(0)">0</button>
+				</div>
+				<div class="ui-block-c">
+					<button onclick="oRMInputReps()">OK</button>
+				</div>
+			</div>
+			
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+	
+	<div data-role="page" id="oRMResult">
+		<div role="main" class="ui-content">
+			<h1>I'll remember this for you:</h1>
+			
+			<h2>
+				<span id="oRMResultExercise">Exercise Name</span>: <span id="oRMResultValue">0</span>kg
+			</h2>
+			
+			<p>Any time you need to update it, just do this process again.</p>
+			
+			<a class="ui-btn" href="#mainMenu">Back to menu</a>
+		</div>
+	</div>
+	
+	<div data-role="page" id="exercises">
+		<div role="main" class="ui-content">
+			<h1>Sure, these are all the exercises I know:</h1>
+			
+			<ul id="exercisesList" class="exercisesList"></ul>
+			
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+	
+	<div data-role="page" id="viewExercise">
+		<div role="main" class="ui-content">
+			<h1 id="exerciseName">Exercise name</h1>
+			<div>
+				Apparatus: <span id="exerciseApparatus">Apparatus name</span> | Muscles Used: <span id="exerciseMuscles">Muscles used</span>
+			</div>
+			
+			<img id="exerciseTutorial" src="http://localhost:8080/static/pilaestra_256x256.png" alt="Exercise tutorial" />
+			
+			<ol id="exerciseSteps"></ol>
+			
+			<a class="ui-btn" href="#" data-rel="back">Go back</a>
+		</div>
+	</div>
+	
+	<script src="script.js"></script>
+</body>
+</html>

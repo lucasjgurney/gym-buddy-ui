@@ -1,0 +1,91 @@
+.ui-mobile [data-role=page] {
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+.ui-mobile [data-role=page]:not(.ui-page-active) {
+	display: none !important;
+}
+
+.ui-page {
+	background-image: url("images/background.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.ui-content {
+	background-color: rgba(0,0,0, 0.6);
+	color: white;
+	text-shadow: none;
+}
+
+.ui-btn {
+	border-radius: .3125em;
+}
+
+h1 {
+	margin: 0;
+}
+
+#authenticate #introMessage {
+	font-size: 2.5em;
+}
+
+#authenticate #helpMessage {
+	font-size: 1.4em;
+	margin: 0;
+}
+
+#error {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #ff6666;
+}
+
+#menuOptions div {
+	padding: 0 5px;
+}
+
+#menuOptions div:first-child {
+	padding-left: 0;
+}
+
+#menuOptions div:last-child {
+	padding-right: 0;
+}
+
+#suggestResult div {
+	font-size: 1.2em;
+}
+
+#suggestResult div span {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+#exerciseName {
+	margin-bottom: 0;
+}
+
+#exerciseApparatus, #exerciseMuscles {
+	font-weight: bold;
+}
+
+#exerciseSteps, #oRMTutorial {
+	text-align: left;
+}
+
+#exerciseSteps > li {
+	margin-bottom: 5px;
+}
+
+.exercisesList {
+	list-style-type: none;
+	padding: 0;
+}
+
+.exercisesList li button{
+	font-weight: normal;
+}
